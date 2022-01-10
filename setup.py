@@ -9,12 +9,14 @@ env = os.environ.get('dev')
 
 
 def get_dependencies():
-    dependency = []
+    dependency = [
+        'Flask'
+    ]
 
     if env and env == "dev":
         return dependency
 
-    return dependency + []
+    return dependency + ["PF-Flask-Rest-Com", "PF-PY-Common"]
 
 
 setup(
