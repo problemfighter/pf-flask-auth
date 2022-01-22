@@ -10,7 +10,9 @@ env = os.environ.get('source')
 
 def get_dependencies():
     dependency = [
-        'Flask'
+        'Flask',
+        'bcrypt>=3.2.0',
+        'PyJWT>=2.3.0',
     ]
 
     if env and env == "dev":
