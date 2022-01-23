@@ -1,6 +1,6 @@
-from pf_flask.global_registry import get_global_app_config
 import datetime
 import jwt
+from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 
 
 class JWTHelper:
@@ -12,7 +12,7 @@ class JWTHelper:
         payload["exp"] = exp
         if iss:
             payload["iss"] = iss
-        return jwt.encode(payload, get_global_app_config().JWT_SECRET, algorithm=self.ALGORITHMS)
+        return jwt.encode(payload, PFFAuthConfig.jwtSecret, algorithm=self.ALGORITHMS)
 
     def get_access_token(self, payload: dict = None, iss=None):
         validity = self.get_access_token_validity()
@@ -26,18 +26,18 @@ class JWTHelper:
         try:
             if not token:
                 return None
-            return jwt.decode(token, get_global_app_config().JWT_SECRET, algorithms=[self.ALGORITHMS])
+            return jwt.decode(token, PFFAuthConfig.jwtSecret, algorithms=[self.ALGORITHMS])
         except:
             return None
 
     def get_access_token_validity(self, minutes=None):
         if not minutes:
-            minutes = get_global_app_config().JWT_ACCESS_TOKEN_VALIDITY_MIN
+            minutes = PFFAuthConfig.jwtAccessTokenValidityMin
         return self.get_token_validity(minutes)
 
     def get_refresh_token_validity(self, minutes=None):
         if not minutes:
-            minutes = get_global_app_config().JWT_REFRESH_TOKEN_VALIDITY_MIN
+            minutes = PFFAuthConfig.jwtRefreshTokenValidityMin
         return self.get_token_validity(minutes)
 
     def get_token_validity(self, minutes):
