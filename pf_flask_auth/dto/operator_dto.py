@@ -1,5 +1,4 @@
 from marshmallow import fields
-
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_rest.api.pf_app_api_def import APIBaseDef
 from pf_flask_rest.form.pf_app_form_def import FormBaseDef, FormAppDef
@@ -33,4 +32,4 @@ class RefreshTokenDto(APIBaseDef):
 
 
 class RefreshTokenResponseDto(APIBaseDef):
-    loginToken = fields.Nested(LoginTokenDto)
+    loginToken = fields.Nested(LoginTokenDTO)
