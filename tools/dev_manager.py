@@ -37,8 +37,13 @@ def pull_project(home):
 
 
 def clone_project(root, project, url):
+    git_branch = os.environ.get('gitBranch')
+    branch = ""
+    if git_branch and git_branch != "":
+        branch += "-b " + git_branch + " "
+
     if url != "":
-        command = git_command("clone ") + url + " " + project
+        command = git_command("clone ") + branch + url + " " + project
         execute_command(root, command)
 
 
@@ -80,6 +85,8 @@ source_projects = {
     "repositories": {
         "pf-flask-rest-com": "https://github.com/problemfighter/pf-flask-rest-com.git",
         "pf-py-common": "https://github.com/problemfighter/pf-py-common.git",
+        "pf-flask-db": "https://github.com/problemfighter/pf-flask-db.git",
+        "pf-flask-rest": "https://github.com/problemfighter/pf-flask-rest.git",
     }
 }
 

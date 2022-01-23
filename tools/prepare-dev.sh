@@ -1,5 +1,6 @@
 #!/bin/bash
 IS_IGNORE_VENV="$1"
+GIT_BRANCH="$2"
 if [ -z "$IS_IGNORE_VENV" ]; then
   echo "======================================================================"
   echo "Connecting to Virtual Environment......."
@@ -24,8 +25,12 @@ if [ -z "$IS_IGNORE_VENV" ]; then
   fi
   source "$VENV"
 fi
-export source="dev"
 
+export source="dev"
+if [ -z "$IS_IGNORE_VENV" ]; then
+  GIT_BRANCH="dev"
+fi
+export gitBranch="$GIT_BRANCH"
 
 echo "Calling Development Library Clone and Pull Script"
 echo "-------------------------------------------------------------------------------"
