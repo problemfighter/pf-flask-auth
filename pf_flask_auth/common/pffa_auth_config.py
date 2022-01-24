@@ -6,6 +6,7 @@ class PFFAuthConfig(object):
     operatorDTOExtend: OperatorDTOExtend = OperatorDTOExtend
     jwtRefreshTokenValidityMin: str = None
     jwtAccessTokenValidityMin: str = None
+    loginIdentifier: str = "email"
     jwtSecret: str = None
     enableAPIAuth: bool = True
     enableSessionAuth: bool = False
