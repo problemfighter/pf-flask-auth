@@ -3,3 +3,7 @@
 class PFFAuthConst(object):
     USERNAME = "username"
     EMAIL = "email"
+    REFRESH_TOKEN_NAME = "REFRESH_TOKEN"
+    INVALID_TOKEN_CODE = 5500
+    TOKEN_EXPIRED_CODE = 5501
+    TOKEN_ERROR_CODE = 5502

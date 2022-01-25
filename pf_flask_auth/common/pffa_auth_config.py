@@ -1,4 +1,3 @@
-from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnVerifyABC
 from pf_flask_auth.data.pffa_extend_data import OperatorExtend, OperatorDTOExtend
 
 
@@ -27,3 +26,6 @@ class PFFAuthConfig(object):
     # Interceptor
     isStringImportSilent: bool = True
     authInterceptOnVerifyABC: str = None
+    authInterceptAPILoginTokenABC: str = None
+    authInterceptRenewTokenABC: str = None
+    authInterceptOnAclABC: str = None
