@@ -1,7 +1,11 @@
 from sqlalchemy import and_
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
+from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnVerifyABC
+from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.model.operator import Operator
+from pf_flask_rest_com.common.pffr_exception import pffrc_exception
+from pf_py_common.py_common import PyCommon
 
 
 class OperatorService:
@@ -43,8 +47,26 @@ class OperatorService:
             return True
         return False
 
-    def login_by(self, identifier, password):
+    def validate_and_get_operator_by(self, identifier: str, password: str):
         response: Operator = self.get_operator_by_identifier(identifier)
         if response and response.verify_password(password):
             return response
         return None
+
+    def login_operator(self, identifier: str, password: str, is_api: bool = False):
+        operator: Operator = self.validate_and_get_operator_by(identifier, password)
+        if not operator:
+            raise pffrc_exception.error_message_exception(PFFAuthMessage.INVALID_CREDENTIALS)
+        if not operator.isActive:
+            raise pffrc_exception.error_message_exception(PFFAuthMessage.ACCOUNT_INACTIVE)
+        if not operator.isVerified:
+            raise pffrc_exception.error_message_exception(PFFAuthMessage.ACCOUNT_NOT_VERIFIED)
+
+        auth_intercept_on_verify_class = PyCommon.import_from_string(PFFAuthConfig.authInterceptOnVerifyABC, PFFAuthConfig.isStringImportSilent)
+        if auth_intercept_on_verify_class and issubclass(auth_intercept_on_verify_class, AuthInterceptOnVerifyABC):
+            auth_intercept = auth_intercept_on_verify_class()
+            intercept_response = auth_intercept.process(operator, self, is_api)
+            if intercept_response:
+                return intercept_response
+
+        return operator
