@@ -2,8 +2,8 @@ from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptAPILoginTokenABC, AuthInterceptRenewTokenABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
+from pf_flask_auth.common.pffa_auth_methods_abc import AuthMethodsAbc
 from pf_flask_auth.dto.operator_dto import OperatorDTO
-
 from pf_flask_auth.model.operator import Operator
 from pf_flask_auth.model.operator_token import OperatorToken
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
@@ -12,7 +12,7 @@ from pf_flask_rest_com.common.pffr_exception import pffrc_exception
 from pf_py_common.py_common import PyCommon
 
 
-class OperatorAPIService:
+class OperatorAPIService(AuthMethodsAbc):
     _token = "token"
     _access_token = "accessToken"
     _refresh_token = "refreshToken"
@@ -23,6 +23,15 @@ class OperatorAPIService:
     jwt_helper = JWTHelper()
 
     def login(self):
+        pass
+
+    def change_password(self):
+        pass
+
+    def reset_password(self):
+        pass
+
+    def forgot_password(self):
         pass
 
     def get_login_api_response(self):

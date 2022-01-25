@@ -3,8 +3,6 @@ from pf_flask_auth.data.pffa_extend_data import OperatorExtend, OperatorDTOExten
 
 class PFFAuthConfig(object):
     loginIdentifier: str = "email"
-    enableAPIAuth: bool = True
-    enableSessionAuth: bool = False
     skipUrlList: list = [
         "/"
     ]
@@ -13,6 +11,16 @@ class PFFAuthConfig(object):
         "/favicon.ico",
         "/static/"
     ]
+
+    # Functionality
+    enableAPIAuth: bool = False
+    enableSessionAuth: bool = True
+    enableAPIEndPoints: bool = False
+    enableFormEndPoints: bool = True
+
+    # EndPoints
+    form_url_prefix = "/auth"
+    api_url_prefix = "/api/v1/operator"
 
     # JWT
     jwtRefreshTokenValidityMin: str = None
