@@ -1,8 +1,9 @@
+from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.data.pffa_extend_data import OperatorExtend, OperatorDTOExtend
 
 
 class PFFAuthConfig(object):
-    loginIdentifier: str = "email"
+    loginIdentifier: str = PFFAuthConst.EMAIL
     skipUrlList: list = [
         "/"
     ]
@@ -18,9 +19,11 @@ class PFFAuthConfig(object):
     enableAPIEndPoints: bool = False
     enableFormEndPoints: bool = True
 
-    # EndPoints
-    form_url_prefix = "/auth"
-    api_url_prefix = "/api/v1/operator"
+    # End Points
+    formUrlPrefix = "/auth"
+    apiUrlPrefix = "/api/v1/operator"
+    loginViewName = "PF Flask Auth"
+    successRedirect = "/dashboard"
 
     # JWT
     jwtRefreshTokenValidityMin: str = None

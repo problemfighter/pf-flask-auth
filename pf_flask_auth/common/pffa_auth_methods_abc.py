@@ -1,10 +1,11 @@
 from abc import abstractmethod
+from pf_flask_rest.api.pf_app_api_def import APIPrimeDef
 
 
 class AuthMethodsAbc:
 
     @abstractmethod
-    def login(self):
+    def login(self, definition: APIPrimeDef = None):
         pass
 
     @abstractmethod

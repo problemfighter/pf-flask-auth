@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 
 from pf_flask_auth.pf_flask_auth import pf_flask_auth
 
@@ -12,7 +12,7 @@ pf_flask_auth.init_app(app)
 
 @app.route('/')
 def bismillah():
-    return "PF Flask Auth Tutorial"
+    return redirect("/auth")
 
 
 if __name__ == '__main__':
