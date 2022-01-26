@@ -35,7 +35,7 @@ def change_password():
     return render_template("auth/change-password.html")
 
 
-@operator_form_controller.route("/reset-password/<string:token>", methods=['GET'])
+@operator_form_controller.route("/reset-password/<string:token>", methods=['POST', 'GET'])
 @operator_form_controller.route("/reset-password", methods=['POST', 'GET'])
 def reset_password(token: str = None):
     form = ResetPasswordDTO()
