@@ -42,3 +42,7 @@ class RefreshTokenResponseDto(APIBaseDef):
 class CreateCLIOperatorDTO(FormBaseDef):
     email = fields.Email(required=True, error_messages={"required": "Please enter email."})
     password = fields.String(required=True, error_messages={"required": "Please enter password."})
+
+
+class ResetPasswordDTO(FormBaseDef):
+    identifier = fields.String(required=True, error_messages={"required": "Please enter identifier."})

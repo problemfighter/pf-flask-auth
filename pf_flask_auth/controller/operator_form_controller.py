@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect
-from pf_flask_auth.dto.operator_dto import LoginFormDTO
+from pf_flask_auth.dto.operator_dto import LoginFormDTO, ResetPasswordDTO
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.service.operator_form_service import OperatorFormService
 
@@ -42,4 +42,12 @@ def reset_password():
 
 @operator_form_controller.route("/forgot-password", methods=['POST', 'GET'])
 def forgot_password():
-    return render_template("auth/forgot-password.html")
+    form = ResetPasswordDTO()
+    if form.is_post_request() and form.is_valid_data():
+        pass
+
+    data = {
+        "identifier": PFFAuthConfig.loginIdentifier,
+        "name": PFFAuthConfig.loginViewName,
+    }
+    return render_template("auth/forgot-password.html", data=data, form=form.definition)
