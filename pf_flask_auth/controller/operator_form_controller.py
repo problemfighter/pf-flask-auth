@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect
-from pf_flask_auth.dto.operator_dto import LoginDTO
+from pf_flask_auth.dto.operator_dto import LoginFormDTO
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.service.operator_form_service import OperatorFormService
 
@@ -19,7 +19,7 @@ operator_form_service = OperatorFormService()
 @operator_form_controller.route("/", methods=['POST', 'GET'])
 @operator_form_controller.route("/login", methods=['POST', 'GET'])
 def login():
-    form = LoginDTO()
+    form = LoginFormDTO()
     if form.is_post_request() and form.is_valid_data():
         if operator_form_service.login(form):
             return redirect(PFFAuthConfig.successRedirect)

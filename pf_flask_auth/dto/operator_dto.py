@@ -9,6 +9,10 @@ class LoginDTO(FormBaseDef):
     password = fields.String(required=True, error_messages={"required": "Please enter password."})
 
 
+class LoginFormDTO(LoginDTO):
+    rememberMe = fields.Boolean(default=False)
+
+
 class OperatorDTO(FormAppDef, PFFAuthConfig.operatorDTOExtend):
     firstName = fields.String()
     lastName = fields.String()
@@ -33,3 +37,8 @@ class RefreshTokenDto(APIBaseDef):
 
 class RefreshTokenResponseDto(APIBaseDef):
     loginToken = fields.Nested(LoginTokenDTO)
+
+
+class CreateCLIOperatorDTO(FormBaseDef):
+    email = fields.Email(required=True, error_messages={"required": "Please enter email."})
+    password = fields.String(required=True, error_messages={"required": "Please enter password."})

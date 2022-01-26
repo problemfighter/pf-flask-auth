@@ -27,14 +27,16 @@ class OperatorService:
 
     def create_operator_by_email(self, email, password):
         operator = self.get_operator_by_email(email)
-        if not operator:
-            operator = Operator()
-            operator.email = email
-            operator.password = password
-            operator.save()
-            if operator.id:
-                return operator
-        return None
+        if operator:
+            raise pffrc_exception.error_message_exception(PFFAuthMessage.OPERATOR_EXIST)
+
+        operator = Operator()
+        operator.email = email
+        operator.password = password
+        operator.save()
+        if operator.id:
+            return operator
+        raise pffrc_exception.error_message_exception(PFFAuthMessage.OPERATOR_CREATE_ERROR)
 
     def is_operator_email_exist(self, email):
         if self.get_operator_by_email(email):

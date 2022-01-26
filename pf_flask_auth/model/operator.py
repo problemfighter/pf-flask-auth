@@ -12,6 +12,7 @@ class Operator(AppModel, PFFAuthConfig.operatorExtend):
     username = app_db.Column("username", app_db.String(100), unique=True, index=True)
     password_hash = app_db.Column("password_hash", app_db.String(150), nullable=False, index=True)
     isVerified = app_db.Column("is_verified", app_db.Boolean, default=True)
+    isActive = app_db.Column("is_active", app_db.Boolean, default=True)
     token = app_db.Column("token", app_db.String(200))
     tokens = app_db.relationship('OperatorToken', backref='operator', lazy=True)
 

@@ -9,3 +9,6 @@ class PFFAuthMessage(object):
     INVALID_TOKEN = "Invalid Token"
     TOKEN_EXPIRED = "Token Expired"
     TOKEN_GENERATION_ERROR = "Unable to generate token"
+    OPERATOR_EXIST = "Operator already exist!"
+    OPERATOR_CREATE_ERROR = "Unable to create Operator!"
+    OPERATOR_CREATED = "Operator has been created!"

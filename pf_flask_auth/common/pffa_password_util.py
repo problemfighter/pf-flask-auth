@@ -16,7 +16,7 @@ class PasswordUtil:
     def validate_password(password, hashed):
         if password:
             password = password.encode('utf8')
-        if hashed:
+        if hashed and isinstance(hashed, str):
             hashed = hashed.encode('utf8')
         if bcrypt.checkpw(password, hashed):
             return True
