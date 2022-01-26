@@ -45,4 +45,9 @@ class CreateCLIOperatorDTO(FormBaseDef):
 
 
 class ResetPasswordDTO(FormBaseDef):
+    newPassword = fields.String(required=True, error_messages={"required": "Please enter new password."})
+    confirmPassword = fields.String(required=True, error_messages={"required": "Please enter confirm password."})
+
+
+class ForgotPasswordDTO(FormBaseDef):
     identifier = fields.String(required=True, error_messages={"required": "Please enter identifier."})
