@@ -1,4 +1,4 @@
-from marshmallow import fields
+from marshmallow import fields, validates_schema, ValidationError
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_rest.api.pf_app_api_def import APIBaseDef
 from pf_flask_rest.form.pf_app_form_def import FormBaseDef, FormAppDef
@@ -47,6 +47,11 @@ class CreateCLIOperatorDTO(FormBaseDef):
 class ResetPasswordDTO(FormBaseDef):
     newPassword = fields.String(required=True, error_messages={"required": "Please enter new password."})
     confirmPassword = fields.String(required=True, error_messages={"required": "Please enter confirm password."})
+
+    @validates_schema
+    def validate_schema(self, data, **kwargs):
+        if data["newPassword"] != data["confirmPassword"]:
+            raise ValidationError("New password & confirm password not matched!", "confirmPassword")
 
 
 class ForgotPasswordDTO(FormBaseDef):
