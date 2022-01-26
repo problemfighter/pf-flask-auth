@@ -16,8 +16,13 @@ class OperatorCLIService:
         except Exception as e:
             return str(e)
 
-    def change_password(self):
-        pass
+    def reset_operator_by_email(self, data: dict):
+        try:
+            self.request_processor.validate_data(data, CreateCLIOperatorDTO())
+            self.operator_service.reset_password_by_email(data["email"], data["password"])
+            return PFFAuthMessage.OPERATOR_PASS_RESET
+        except Exception as e:
+            return str(e)
 
     def reset_password(self):
         pass

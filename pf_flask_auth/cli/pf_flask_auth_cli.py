@@ -15,7 +15,10 @@ def create(email, password):
     print(response)
 
 
-# @pf_flask_auth_cli.command("destroy", help="Delete database tables")
-# @with_appcontext
-# def destroy():
-#     pass
+@pf_flask_auth_cli.command("reset", help="Reset Operator Password")
+@click.option("--email", prompt="Enter Email ", help="Provide your email address", required=True)
+@click.option("--password", prompt="Enter Password ", help="Provide your password", hide_input=True, required=True)
+@with_appcontext
+def reset(email, password):
+    response = operator_cli_service.reset_operator_by_email({"email": email, "password": password})
+    print(response)

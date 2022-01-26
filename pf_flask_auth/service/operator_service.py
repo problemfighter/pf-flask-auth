@@ -38,6 +38,16 @@ class OperatorService:
             return operator
         raise pffrc_exception.error_message_exception(PFFAuthMessage.OPERATOR_CREATE_ERROR)
 
+    def reset_password_by_email(self, email, password):
+        operator = self.get_operator_by_email(email)
+        if not operator:
+            raise pffrc_exception.error_message_exception(PFFAuthMessage.OPERATOR_NOT_EXIST)
+        operator.password = password
+        operator.save()
+        if operator.id:
+            return operator
+        raise pffrc_exception.error_message_exception(PFFAuthMessage.OPERATOR_PASS_RESET_ERROR)
+
     def is_operator_email_exist(self, email):
         if self.get_operator_by_email(email):
             return True
