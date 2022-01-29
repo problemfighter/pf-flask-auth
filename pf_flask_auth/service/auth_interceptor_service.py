@@ -20,10 +20,12 @@ class AuthInterceptorService:
     _AUTH_URLS = [
         PFFAuthConfig.formUrlPrefix,
         PFFAuthConfig.formUrlPrefix + PFFAuthConfig.loginURL,
+        PFFAuthConfig.formUrlPrefix + PFFAuthConfig.logoutURL,
         PFFAuthConfig.formUrlPrefix + PFFAuthConfig.resetPasswordURL,
         PFFAuthConfig.formUrlPrefix + PFFAuthConfig.forgotPasswordURL,
 
         PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.loginURL,
+        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.logoutURL,
         PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.resetPasswordURL,
         PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.forgotPasswordURL,
     ]

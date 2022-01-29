@@ -29,6 +29,7 @@ class PFFAuthConfig(object):
     loginURL = "/login"
     resetPasswordURL = "/reset-password"
     forgotPasswordURL = "/forgot-password"
+    logoutURL = "/logout"
 
     # JWT
     jwtRefreshTokenValidityMin: str = None

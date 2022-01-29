@@ -52,3 +52,9 @@ def forgot_password():
         "name": PFFAuthConfig.loginViewName,
     }
     return render_template("auth/forgot-password.html", data=data, form=form.definition)
+
+
+@operator_form_controller.route(PFFAuthConfig.logoutURL, methods=['GET'])
+def logout():
+    operator_form_service.logout()
+    return redirect(url_prefix)

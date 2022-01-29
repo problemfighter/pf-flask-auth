@@ -1,4 +1,5 @@
 from pf_flask_auth.common.pffa_auth_methods_abc import AuthMethodsAbc
+from pf_flask_auth.common.pffa_session_man import SessionMan
 from pf_flask_auth.data.pffa_form_auth_data import FormAuthData
 from pf_flask_auth.dto.operator_dto import LoginFormDTO
 from pf_flask_auth.service.operator_service import OperatorService
@@ -24,3 +25,6 @@ class OperatorFormService(AuthMethodsAbc):
 
     def forgot_password(self):
         pass
+
+    def logout(self):
+        SessionMan.destroy()
