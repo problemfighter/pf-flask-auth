@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///pf-flask-auth-quick-start.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.secret_key = 'SecretKey'
 
 pf_flask_auth.init_app(app)
 

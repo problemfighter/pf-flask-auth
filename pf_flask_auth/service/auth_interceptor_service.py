@@ -1,3 +1,5 @@
+from werkzeug.utils import redirect
+
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnAclABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
@@ -15,7 +17,18 @@ class AuthInterceptorService:
     url_info: PFFRCRequestInfo = None
     response_processor: ResponseProcessor = ResponseProcessor()
 
-    def call_acl_interceptor(self, payload, form_auth_data: FormAuthData = None, is_api: bool = False):
+    _AUTH_URLS = [
+        PFFAuthConfig.formUrlPrefix,
+        PFFAuthConfig.formUrlPrefix + PFFAuthConfig.loginURL,
+        PFFAuthConfig.formUrlPrefix + PFFAuthConfig.resetPasswordURL,
+        PFFAuthConfig.formUrlPrefix + PFFAuthConfig.forgotPasswordURL,
+
+        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.loginURL,
+        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.resetPasswordURL,
+        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.forgotPasswordURL,
+    ]
+
+    def call_acl_interceptor(self, payload=None, form_auth_data: FormAuthData = None, is_api: bool = False):
         intercept_class = PyCommon.import_from_string(PFFAuthConfig.authInterceptOnAclABC, PFFAuthConfig.isStringImportSilent)
         if intercept_class and issubclass(intercept_class, AuthInterceptOnAclABC):
             auth_intercept = intercept_class()
@@ -37,7 +50,8 @@ class AuthInterceptorService:
         return False
 
     def check_url_start_with(self, request_url):
-        for url in PFFAuthConfig.skipStartWithUrlList:
+        url_list = self._AUTH_URLS + PFFAuthConfig.skipStartWithUrlList
+        for url in url_list:
             if request_url.startswith(url):
                 return True
         return False
@@ -61,7 +75,10 @@ class AuthInterceptorService:
         return self.call_acl_interceptor(payload=payload, is_api=True)
 
     def check_form_auth(self):
-        pass
+        form_auth_data = FormAuthData.ins().get_logged_in_session()
+        if not form_auth_data or not form_auth_data.isLoggedIn:
+            return redirect(PFFAuthConfig.formUrlPrefix)
+        return self.call_acl_interceptor(form_auth_data=form_auth_data, is_api=False)
 
     def check_auth(self):
         if self.is_rest_request():

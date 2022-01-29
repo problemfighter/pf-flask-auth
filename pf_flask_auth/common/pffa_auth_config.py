@@ -10,7 +10,7 @@ class PFFAuthConfig(object):
 
     skipStartWithUrlList: list = [
         "/favicon.ico",
-        "/static/"
+        "/static/",
     ]
 
     # Functionality
@@ -25,6 +25,10 @@ class PFFAuthConfig(object):
     loginViewName = "PF Flask Auth"
     successRedirect = "/dashboard"
     apiURLStartWith = "/api"
+
+    loginURL = "/login"
+    resetPasswordURL = "/reset-password"
+    forgotPasswordURL = "/forgot-password"
 
     # JWT
     jwtRefreshTokenValidityMin: str = None

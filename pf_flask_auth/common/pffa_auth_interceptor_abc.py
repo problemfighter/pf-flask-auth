@@ -22,12 +22,12 @@ class AuthInterceptAPILoginTokenABC(ABC):
 class AuthInterceptRenewTokenABC(ABC):
 
     @abstractmethod
-    def process(self, response_map: dict, requested_jwt_payload: dict, operator_api_service) -> Operator:
+    def process(self, response_map: dict, requested_jwt_payload: dict, operator_api_service) -> dict:
         pass
 
 
 class AuthInterceptOnAclABC(ABC):
 
     @abstractmethod
-    def process(self, url_info: PFFRCRequestInfo, payload: dict = None, form_auth_data: FormAuthData = None, is_api: bool = False) -> Operator:
+    def process(self, url_info: PFFRCRequestInfo, payload: dict = None, form_auth_data: FormAuthData = None, is_api: bool = False):
         pass
