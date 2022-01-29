@@ -3,15 +3,22 @@ from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnVerifyABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
+from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
 from pf_flask_auth.model.operator import Operator
+from pf_flask_auth.service.operator_email_service import OperatorEmailService
 from pf_flask_rest_com.common.pffr_exception import pffrc_exception
 from pf_py_common.py_common import PyCommon
 
 
 class OperatorService:
+    jwt_helper = JWTHelper()
+    operator_email_service = OperatorEmailService()
 
     def get_operator_by_email(self, email):
         return Operator.query.filter(Operator.email == email, Operator.isDeleted == False).first()
+
+    def get_operator_by_token(self, token):
+        return Operator.query.filter(Operator.token == token, Operator.isDeleted == False).first()
 
     def get_operator_by_username(self, username):
         return Operator.query.filter(and_(Operator.username == username, Operator.isDeleted == False)).first()
@@ -82,3 +89,20 @@ class OperatorService:
                 return intercept_response
 
         return operator
+
+    def send_forgot_password_email(self, operator: Operator, is_api: bool = False):
+        operator.token = PyCommon.get_random() + str(operator.id)
+        validity = self.jwt_helper.get_token_validity(PFFAuthConfig.resetPasswordTokenValidMin)
+        token = self.jwt_helper.get_token(validity, {"token": operator.token})
+        operator.save()
+        self.operator_email_service.forgot_password_email(token, operator, is_api)
+
+    def rest_password_by_token(self, token: str, new_password: str):
+        payload = self.jwt_helper.validate_token(token)
+        if payload and "token" in payload:
+            operator: Operator = self.get_operator_by_token(payload["token"])
+            if operator:
+                operator.password = new_password
+                operator.save()
+                return True
+        return False

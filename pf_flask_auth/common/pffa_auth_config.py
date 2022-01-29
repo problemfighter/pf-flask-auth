@@ -1,5 +1,6 @@
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.data.pffa_extend_data import OperatorExtend, OperatorDTOExtend
+from pf_flask_mail.common.pffm_config import PFFMConfig
 
 
 class PFFAuthConfig(object):
@@ -34,7 +35,8 @@ class PFFAuthConfig(object):
     # JWT
     jwtRefreshTokenValidityMin: str = None
     jwtAccessTokenValidityMin: str = None
-    jwtSecret: str = None
+    jwtSecret: str = "PleaseChangeTheToken"
+    resetPasswordTokenValidMin: int = 150
 
     # Extension
     operatorExtend: OperatorExtend = OperatorExtend
@@ -46,3 +48,9 @@ class PFFAuthConfig(object):
     authInterceptAPILoginTokenABC: str = None
     authInterceptRenewTokenABC: str = None
     authInterceptOnAclABC: str = None
+
+    # Email Configuration
+    emailConfig: PFFMConfig = None
+    emailFormAppBaseURL: str = None
+    emailRestAppBaseURL: str = None
+

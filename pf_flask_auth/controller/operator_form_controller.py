@@ -35,17 +35,19 @@ def login():
 def reset_password(token: str = None):
     form = ResetPasswordDTO()
     if form.is_post_request() and form.is_valid_data():
-        pass
+        if operator_form_service.reset_password(form):
+            pass
 
     data = {}
-    return render_template("auth/reset-password.html", data=data, form=form.definition)
+    return render_template("auth/reset-password.html", data=data, form=form.definition, token=token)
 
 
 @operator_form_controller.route(PFFAuthConfig.forgotPasswordURL, methods=['POST', 'GET'])
 def forgot_password():
     form = ForgotPasswordDTO()
     if form.is_post_request() and form.is_valid_data():
-        pass
+        if operator_form_service.forgot_password(form):
+            pass
 
     data = {
         "identifier": PFFAuthConfig.loginIdentifier,

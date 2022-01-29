@@ -13,9 +13,9 @@ class AuthMethodsAbc:
         pass
 
     @abstractmethod
-    def reset_password(self):
+    def reset_password(self, definition: APIPrimeDef = None):
         pass
 
     @abstractmethod
-    def forgot_password(self):
+    def forgot_password(self, definition: APIPrimeDef = None):
         pass
