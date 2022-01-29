@@ -24,6 +24,7 @@ class PFFAuthConfig(object):
     apiUrlPrefix = "/api/v1/operator"
     loginViewName = "PF Flask Auth"
     successRedirect = "/dashboard"
+    apiURLStartWith = "/api"
 
     # JWT
     jwtRefreshTokenValidityMin: str = None
