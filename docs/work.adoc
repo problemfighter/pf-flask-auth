@@ -3,3 +3,4 @@
 
 * Remember me
 * API Implementation
+* Email on thread

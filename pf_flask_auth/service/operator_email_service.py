@@ -14,7 +14,7 @@ class OperatorEmailService:
             send_email_service = PFFMSendMail(PFFAuthConfig.emailConfig)
             send_email_service.compose(recipient, subject)
             send_email_service.add_html_message(html_body)
-            send_email_service.send()
+            send_email_service.send(use_thread=True)
 
     def forgot_password_email(self, token, operator: Operator, is_api: bool = False):
         url = PFFAuthConfig.emailFormAppBaseURL + PFFAuthConfig.formUrlPrefix
