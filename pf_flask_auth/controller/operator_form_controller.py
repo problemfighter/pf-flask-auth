@@ -39,7 +39,7 @@ def reset_password(token: str):
     form = ResetPasswordDTO()
     if form.is_post_request() and form.is_valid_data():
         if operator_form_service.reset_password(form):
-            return render_template("auth/reset-password-response.html", message=PFFAuthMessage.PASS_RESET_SUCCESS, error=True)
+            return render_template("auth/reset-password-response.html", message=PFFAuthMessage.PASS_RESET_SUCCESS, error=False)
         else:
             return render_template("auth/reset-password-response.html", message=PFFAuthMessage.INVALID_TOKEN_OR_EXPIRE, error=True)
     data = {}
