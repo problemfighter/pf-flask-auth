@@ -89,6 +89,7 @@ source_projects = {
         "pf-flask-rest": "https://github.com/problemfighter/pf-flask-rest.git",
         "pf-py-jinja": "https://github.com/problemfighter/pf-py-jinja.git",
         "pf-flask-mail": "https://github.com/problemfighter/pf-flask-mail.git",
+        "pf-flask-swagger": "https://github.com/problemfighter/pf-flask-swagger.git",
     }
 }
 
