@@ -1,3 +1,5 @@
+import os
+
 from pf_flask_auth.cli.pf_flask_auth_cli import pf_flask_auth_cli
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.controller.operator_api_controller import operator_api_controller
@@ -18,6 +20,13 @@ class PFFlaskAuth:
 
         app.cli.add_command(pf_flask_auth_cli)
         app.before_request_funcs.setdefault(None, []).append(self.auth_interceptor_service.intercept)
+        self._init_default_path()
+
+    def _init_default_path(self):
+        root_path = os.path.dirname(os.path.abspath(__file__))
+        email_template_path = os.path.join(root_path, "email-template")
+        if not PFFAuthConfig.emailTemplatePath:
+            PFFAuthConfig.emailTemplatePath = email_template_path
 
 
 pf_flask_auth = PFFlaskAuth()

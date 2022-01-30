@@ -33,8 +33,8 @@ class PFFAuthConfig(object):
     logoutURL = "/logout"
 
     # JWT
-    jwtRefreshTokenValidityMin: str = None
-    jwtAccessTokenValidityMin: str = None
+    jwtRefreshTokenValidityMin: int = 45
+    jwtAccessTokenValidityMin: int = 30
     jwtSecret: str = "PleaseChangeTheToken"
     resetPasswordTokenValidMin: int = 150
 
@@ -53,4 +53,5 @@ class PFFAuthConfig(object):
     emailConfig: PFFMConfig = None
     emailFormAppBaseURL: str = None
     emailRestAppBaseURL: str = None
+    emailTemplatePath: str = None
 
