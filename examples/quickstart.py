@@ -1,5 +1,6 @@
 from flask import Flask, redirect
 
+from pf_flask_rest.pf_flask_rest import pf_flask_rest
 from pf_flask_swagger.common.pf_flask_swagger_config import PFFlaskSwaggerConfig
 from pf_flask_swagger.flask.pf_flask_swagger import PFFlaskSwagger
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
@@ -20,12 +21,13 @@ PFFlaskSwaggerConfig.enable_pf_api_convention = True
 config = PFFMConfig()
 config.smtpServer = "smtp.gmail.com"
 config.smtpUser = "pfdevtester@gmail.com"
-config.smtpPassword = ""
+config.smtpPassword = "pf@admin"
 config.smtpPort = 465
 PFFAuthConfig.emailConfig = config
 PFFAuthConfig.enableAPIEndPoints = True
 
 pf_flask_auth.init_app(app)
+pf_flask_rest.init_app(app)
 
 
 app_db.init_app(app)

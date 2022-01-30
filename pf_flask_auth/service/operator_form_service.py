@@ -21,10 +21,7 @@ class OperatorFormService(AuthMethodsAbc):
         return self.operator_service.rest_password_by_token(form_def.token, form_def.newPassword)
 
     def forgot_password(self, form_def: ForgotPasswordDTO = None):
-        operator = self.operator_service.get_operator_by_email(form_def.email)
-        if operator:
-            self.operator_service.send_forgot_password_email(operator)
-        return True
+        return self.operator_service.forgot_password(form_def.email)
 
     def is_valid_rest_password_token(self, token: str) -> bool:
         return self.operator_service.is_valid_rest_password_token(token)

@@ -3,13 +3,14 @@ from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptAPILoginTokenABC, AuthInterceptRenewTokenABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_auth_methods_abc import AuthMethodsAbc
-from pf_flask_auth.dto.operator_dto import OperatorDTO, LoginDTO
+from pf_flask_auth.dto.operator_dto import OperatorDTO, LoginDTO, ForgotPasswordDTO, ResetPasswordDTO
 from pf_flask_auth.model.operator import Operator
 from pf_flask_auth.model.operator_token import OperatorToken
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
 from pf_flask_auth.service.operator_service import OperatorService
 from pf_flask_rest.api.pf_app_api_def import APIPrimeDef
 from pf_flask_rest.pf_flask_request_processor import RequestProcessor
+from pf_flask_rest.pf_flask_response_processor import ResponseProcessor
 from pf_flask_rest_com.common.pffr_exception import pffrc_exception
 from pf_py_common.py_common import PyCommon
 
@@ -24,15 +25,24 @@ class OperatorAPIService(AuthMethodsAbc):
     operator_service: OperatorService = OperatorService()
     jwt_helper = JWTHelper()
     request_processor = RequestProcessor()
+    response_processor = ResponseProcessor()
 
     def login(self, definition: LoginDTO = None):
-        data = self.request_processor.get_rest_json_data(definition)
+        data = self.request_processor.get_rest_json_data(LoginDTO())
+        operator: Operator = self.operator_service.login_operator(data["identifier"], data["password"], True)
+        return self.process_login_response(operator)
 
-    def reset_password(self, definition: APIPrimeDef = None):
-        pass
+    def reset_password(self, definition: ResetPasswordDTO = None):
+        data = self.request_processor.get_rest_json_data(ResetPasswordDTO())
+        is_success = self.operator_service.rest_password_by_token(data["token"], data["newPassword"])
+        if is_success:
+            return self.response_processor.success_message(PFFAuthMessage.PASS_RESET_SUCCESS)
+        return self.response_processor.error_message(PFFAuthMessage.INVALID_TOKEN_OR_EXPIRE)
 
     def forgot_password(self, definition: APIPrimeDef = None):
-        pass
+        data = self.request_processor.get_rest_json_data(ForgotPasswordDTO())
+        self.operator_service.forgot_password(data["email"])
+        return self.response_processor.success_message(PFFAuthMessage.PASS_RESET_REQUEST)
 
     def logout(self):
         pass

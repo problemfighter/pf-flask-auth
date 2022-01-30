@@ -90,6 +90,12 @@ class OperatorService:
 
         return operator
 
+    def forgot_password(self, email: str):
+        operator = self.get_operator_by_email(email)
+        if operator:
+            self.send_forgot_password_email(operator)
+        return True
+
     def send_forgot_password_email(self, operator: Operator, is_api: bool = False):
         operator.token = PyCommon.get_random() + str(operator.id)
         validity = self.jwt_helper.get_token_validity(PFFAuthConfig.resetPasswordTokenValidMin)
