@@ -32,10 +32,10 @@ def forgot_password():
 @operator_api_controller.route(PFFAuthConfig.logoutURL, methods=['GET'])
 @rest_request(pf_message_response=True)
 def logout():
-    pass
+    return operator_api_service.logout()
 
 
 @operator_api_controller.route(PFFAuthConfig.renewTokenURL, methods=['POST'])
 @rest_request(request_obj=RefreshTokenDTO, response_obj=RefreshTokenResponseDTO)
 def renew_token():
-    pass
+    return operator_api_service.renew_token()

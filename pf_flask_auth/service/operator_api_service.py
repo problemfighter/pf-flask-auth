@@ -3,7 +3,7 @@ from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptAPILoginTokenABC, AuthInterceptRenewTokenABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_auth_methods_abc import AuthMethodsAbc
-from pf_flask_auth.dto.operator_dto import OperatorDTO, LoginDTO, ForgotPasswordDTO, ResetPasswordDTO
+from pf_flask_auth.dto.operator_dto import OperatorDTO, LoginDTO, ForgotPasswordDTO, ResetPasswordDTO, RefreshTokenDTO
 from pf_flask_auth.model.operator import Operator
 from pf_flask_auth.model.operator_token import OperatorToken
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
@@ -45,10 +45,12 @@ class OperatorAPIService(AuthMethodsAbc):
         return self.response_processor.success_message(PFFAuthMessage.PASS_RESET_REQUEST)
 
     def logout(self):
-        pass
+        return self.response_processor.success_message(PFFAuthMessage.LOGOUT_SUCCESS)
 
-    def get_login_api_response(self):
-        pass
+    def renew_token(self):
+        data = self.request_processor.get_rest_json_data(RefreshTokenDTO())
+        response = self.renew_token_by_refresh_token(data["refreshToken"])
+        return self.response_processor.dict_response(response)
 
     def process_login_response(self, operator: Operator) -> dict:
         operator_details = OperatorDTO().dump(operator)
@@ -116,7 +118,7 @@ class OperatorAPIService(AuthMethodsAbc):
         existing_token.save()
         return existing_token
 
-    def renew_token(self, token):
+    def renew_token_by_refresh_token(self, token):
         jwt_payload = self.jwt_helper.validate_token(token)
         if not jwt_payload:
             raise pffrc_exception.error_message_exception(PFFAuthMessage.INVALID_TOKEN, PFFAuthConst.INVALID_TOKEN_CODE)

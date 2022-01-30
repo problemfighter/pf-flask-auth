@@ -18,4 +18,5 @@ class PFFAuthMessage(object):
     NOT_AUTHORIZE = "You are not Authorize for Access."
     PASS_RESET_REQUEST = "Password Reset Request"
     PASS_RESET_SUCCESS = "Successfully Password Reset!"
+    LOGOUT_SUCCESS = "Successfully Logout"
     INVALID_TOKEN_OR_EXPIRE = "Your token is invalid or expired! Please try again."
