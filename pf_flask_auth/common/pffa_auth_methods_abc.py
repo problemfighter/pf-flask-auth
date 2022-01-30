@@ -9,13 +9,13 @@ class AuthMethodsAbc:
         pass
 
     @abstractmethod
-    def change_password(self):
-        pass
-
-    @abstractmethod
     def reset_password(self, definition: APIPrimeDef = None):
         pass
 
     @abstractmethod
     def forgot_password(self, definition: APIPrimeDef = None):
+        pass
+
+    @abstractmethod
+    def logout(self):
         pass

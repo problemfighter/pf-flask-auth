@@ -17,9 +17,6 @@ class OperatorFormService(AuthMethodsAbc):
             form_def.definition.add_validation_error(str(e))
         return False
 
-    def change_password(self):
-        pass
-
     def reset_password(self, form_def: ResetPasswordDTO = None):
         return self.operator_service.rest_password_by_token(form_def.token, form_def.newPassword)
 

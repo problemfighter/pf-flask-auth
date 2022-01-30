@@ -26,13 +26,13 @@ class OperatorAPIService(AuthMethodsAbc):
     def login(self, definition: APIPrimeDef = None):
         pass
 
-    def change_password(self):
+    def reset_password(self, definition: APIPrimeDef = None):
         pass
 
-    def reset_password(self):
+    def forgot_password(self, definition: APIPrimeDef = None):
         pass
 
-    def forgot_password(self):
+    def logout(self):
         pass
 
     def get_login_api_response(self):
