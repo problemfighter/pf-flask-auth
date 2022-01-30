@@ -28,6 +28,7 @@ class AuthInterceptorService:
         PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.logoutURL,
         PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.resetPasswordURL,
         PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.forgotPasswordURL,
+        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.renewTokenURL,
     ]
 
     def call_acl_interceptor(self, payload=None, form_auth_data: FormAuthData = None, is_api: bool = False):

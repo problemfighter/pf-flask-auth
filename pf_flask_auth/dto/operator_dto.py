@@ -31,11 +31,11 @@ class LoginResponseDTO(APIBaseDef):
     operator = fields.Nested(OperatorDTO)
 
 
-class RefreshTokenDto(APIBaseDef):
+class RefreshTokenDTO(APIBaseDef):
     refreshToken = fields.String()
 
 
-class RefreshTokenResponseDto(APIBaseDef):
+class RefreshTokenResponseDTO(APIBaseDef):
     loginToken = fields.Nested(LoginTokenDTO)
 
 
