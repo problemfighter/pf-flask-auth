@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, redirect
+
+from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.dto.operator_dto import LoginFormDTO, ResetPasswordDTO, ForgotPasswordDTO
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.service.operator_form_service import OperatorFormService
@@ -31,13 +33,15 @@ def login():
 
 
 @operator_form_controller.route(PFFAuthConfig.resetPasswordURL + "/<string:token>", methods=['POST', 'GET'])
-@operator_form_controller.route(PFFAuthConfig.resetPasswordURL, methods=['POST', 'GET'])
-def reset_password(token: str = None):
+def reset_password(token: str):
+    if not operator_form_service.is_valid_rest_password_token(token):
+        return render_template("auth/reset-password-response.html", message=PFFAuthMessage.INVALID_TOKEN_OR_EXPIRE, error=True)
     form = ResetPasswordDTO()
     if form.is_post_request() and form.is_valid_data():
         if operator_form_service.reset_password(form):
-            pass
-
+            return render_template("auth/reset-password-response.html", message=PFFAuthMessage.PASS_RESET_SUCCESS, error=True)
+        else:
+            return render_template("auth/reset-password-response.html", message=PFFAuthMessage.INVALID_TOKEN_OR_EXPIRE, error=True)
     data = {}
     return render_template("auth/reset-password.html", data=data, form=form.definition, token=token)
 
@@ -47,8 +51,7 @@ def forgot_password():
     form = ForgotPasswordDTO()
     if form.is_post_request() and form.is_valid_data():
         if operator_form_service.forgot_password(form):
-            pass
-
+            return render_template("auth/forgot-password-response.html")
     data = {
         "identifier": PFFAuthConfig.loginIdentifier,
         "name": PFFAuthConfig.loginViewName,

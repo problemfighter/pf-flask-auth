@@ -106,3 +106,9 @@ class OperatorService:
                 operator.save()
                 return True
         return False
+
+    def is_valid_rest_password_token(self, token: str) -> bool:
+        payload = self.jwt_helper.validate_token(token)
+        if payload:
+            return True
+        return False

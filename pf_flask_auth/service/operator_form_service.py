@@ -29,5 +29,8 @@ class OperatorFormService(AuthMethodsAbc):
             self.operator_service.send_forgot_password_email(operator)
         return True
 
+    def is_valid_rest_password_token(self, token: str) -> bool:
+        return self.operator_service.is_valid_rest_password_token(token)
+
     def logout(self):
         SessionMan.destroy()

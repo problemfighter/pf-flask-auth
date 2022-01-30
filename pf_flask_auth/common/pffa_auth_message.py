@@ -17,3 +17,5 @@ class PFFAuthMessage(object):
     OPERATOR_PASS_RESET_ERROR = "Unable to reset operator password!"
     NOT_AUTHORIZE = "You are not Authorize for Access."
     PASS_RESET_REQUEST = "Password Reset Request"
+    PASS_RESET_SUCCESS = "Successfully Password Reset!"
+    INVALID_TOKEN_OR_EXPIRE = "Your token is invalid or expired! Please try again."
