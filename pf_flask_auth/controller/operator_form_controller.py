@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, redirect
-
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.dto.operator_dto import LoginFormDTO, ResetPasswordDTO, ForgotPasswordDTO
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
