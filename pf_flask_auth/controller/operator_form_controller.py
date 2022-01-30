@@ -51,7 +51,7 @@ def forgot_password():
     form = ForgotPasswordDTO()
     if form.is_post_request() and form.is_valid_data():
         if operator_form_service.forgot_password(form):
-            return render_template("auth/forgot-password-response.html")
+            return render_template("auth/forgot-password-response.html", email=form.email)
     data = {
         "identifier": PFFAuthConfig.loginIdentifier,
         "name": PFFAuthConfig.loginViewName,

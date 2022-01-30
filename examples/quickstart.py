@@ -19,7 +19,7 @@ PFFAuthConfig.emailFormAppBaseURL = "http://127.0.0.1:5000"
 config = PFFMConfig()
 config.smtpServer = "smtp.gmail.com"
 config.smtpUser = "pfdevtester@gmail.com"
-config.smtpPassword = ""
+config.smtpPassword = "pf@admin"
 config.smtpPort = 465
 PFFAuthConfig.emailConfig = config
 
