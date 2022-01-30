@@ -24,8 +24,9 @@ class PFFlaskAuth:
 
     def _init_default_path(self):
         root_path = os.path.dirname(os.path.abspath(__file__))
-        email_template_path = os.path.join(root_path, "email-template")
+
         if not PFFAuthConfig.emailTemplatePath:
+            email_template_path = os.path.join(root_path, "email-template")
             PFFAuthConfig.emailTemplatePath = email_template_path
 
 
