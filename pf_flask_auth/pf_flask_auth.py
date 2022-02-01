@@ -14,13 +14,18 @@ class PFFlaskAuth:
         if not app:
             return
         if PFFAuthConfig.enableAPIEndPoints:
-            app.register_blueprint(operator_api_controller)
+            api_controller = operator_api_controller
+            api_controller.url_prefix = PFFAuthConfig.apiUrlPrefix
+            app.register_blueprint(api_controller)
         if PFFAuthConfig.enableFormEndPoints:
-            app.register_blueprint(operator_form_controller)
+            form_controller = operator_form_controller
+            form_controller.url_prefix = PFFAuthConfig.formUrlPrefix
+            app.register_blueprint(form_controller)
 
         app.cli.add_command(pf_flask_auth_cli)
         app.before_request_funcs.setdefault(None, []).append(self.auth_interceptor_service.intercept)
         self._init_default_path()
+        AuthInterceptorService.init_auth_skip_url()
 
     def _init_default_path(self):
         root_path = os.path.dirname(os.path.abspath(__file__))

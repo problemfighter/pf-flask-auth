@@ -17,19 +17,23 @@ class AuthInterceptorService:
     url_info: PFFRCRequestInfo = None
     response_processor: ResponseProcessor = ResponseProcessor()
 
-    _AUTH_URLS = [
-        PFFAuthConfig.formUrlPrefix,
-        PFFAuthConfig.formUrlPrefix + PFFAuthConfig.loginURL,
-        PFFAuthConfig.formUrlPrefix + PFFAuthConfig.logoutURL,
-        PFFAuthConfig.formUrlPrefix + PFFAuthConfig.resetPasswordURL,
-        PFFAuthConfig.formUrlPrefix + PFFAuthConfig.forgotPasswordURL,
+    _AUTH_URLS = []
 
-        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.loginURL,
-        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.logoutURL,
-        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.resetPasswordURL,
-        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.forgotPasswordURL,
-        PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.renewTokenURL,
-    ]
+    @staticmethod
+    def init_auth_skip_url():
+        AuthInterceptorService._AUTH_URLS = [
+            PFFAuthConfig.formUrlPrefix,
+            PFFAuthConfig.formUrlPrefix + PFFAuthConfig.loginURL,
+            PFFAuthConfig.formUrlPrefix + PFFAuthConfig.logoutURL,
+            PFFAuthConfig.formUrlPrefix + PFFAuthConfig.resetPasswordURL,
+            PFFAuthConfig.formUrlPrefix + PFFAuthConfig.forgotPasswordURL,
+
+            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.loginURL,
+            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.logoutURL,
+            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.resetPasswordURL,
+            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.forgotPasswordURL,
+            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.renewTokenURL,
+        ]
 
     def call_acl_interceptor(self, payload=None, form_auth_data: FormAuthData = None, is_api: bool = False):
         intercept_class = PyCommon.import_from_string(PFFAuthConfig.authInterceptOnAclABC, PFFAuthConfig.isStringImportSilent)

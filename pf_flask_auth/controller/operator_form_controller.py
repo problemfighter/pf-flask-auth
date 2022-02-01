@@ -10,8 +10,8 @@ operator_form_controller = Blueprint(
     __name__,
     url_prefix=url_prefix,
     template_folder="templates",
-    static_folder="static",
-    static_url_path="static",
+    static_folder="auth-static",
+    static_url_path="auth-static",
 )
 
 operator_form_service = OperatorFormService()

@@ -6,7 +6,7 @@ from pf_flask_mail.common.pffm_config import PFFMConfig
 class PFFAuthConfig(object):
     loginIdentifier: str = PFFAuthConst.EMAIL
     skipUrlList: list = [
-        "/"
+        "/",
     ]
 
     skipStartWithUrlList: list = [
