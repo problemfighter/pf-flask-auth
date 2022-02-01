@@ -21,11 +21,11 @@ class PFFAuthConfig(object):
     enableFormEndPoints: bool = True
 
     # End Points
-    formUrlPrefix = "/auth"
-    apiUrlPrefix = "/api/v1/operator"
     loginViewName = "PF Flask Auth"
-    successRedirect = "/dashboard"
+    formUrlPrefix = "/auth"
     apiURLStartWith = "/api"
+    apiUrlPrefix = "/api/v1/operator"
+    successRedirect = "/dashboard"
 
     loginURL = "/login"
     resetPasswordURL = "/reset-password"
