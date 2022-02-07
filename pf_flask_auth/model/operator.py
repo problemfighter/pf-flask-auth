@@ -5,6 +5,7 @@ from pf_flask_db.pf_app_model import AppModel
 
 
 class Operator(AppModel, PFFAuthConfig.operatorExtend):
+    __abstract__ = not PFFAuthConfig.isCreateDefaultModel
     firstName = app_db.Column("first_name", app_db.String(100))
     lastName = app_db.Column("last_name", app_db.String(100))
     name = app_db.Column("name", app_db.String(100))

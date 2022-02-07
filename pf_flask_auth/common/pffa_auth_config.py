@@ -42,6 +42,7 @@ class PFFAuthConfig(object):
     # Extension
     operatorExtend: OperatorExtend = OperatorExtend
     operatorDTOExtend: OperatorDTOExtend = OperatorDTOExtend
+    isCreateDefaultModel: bool = True
 
     # Interceptor
     isStringImportSilent: bool = True

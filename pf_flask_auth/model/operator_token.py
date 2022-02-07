@@ -1,9 +1,11 @@
 from sqlalchemy import Integer
+from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_db.pf_app_database import app_db
 from pf_flask_db.pf_app_model import BaseModel
 
 
 class OperatorToken(BaseModel):
+    __abstract__ = not PFFAuthConfig.isCreateDefaultModel
     id = app_db.Column("id", app_db.BigInteger().with_variant(Integer, "sqlite"), primary_key=True)
     token = app_db.Column("token", app_db.String(350), nullable=False)
     name = app_db.Column("name", app_db.String(25))
