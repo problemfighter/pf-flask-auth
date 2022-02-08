@@ -1,5 +1,6 @@
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.data.pffa_extend_data import OperatorExtend, OperatorDTOExtend
+from pf_flask_db.pf_app_model import BaseModel
 from pf_flask_mail.common.pffm_config import PFFMConfig
 
 
@@ -43,6 +44,7 @@ class PFFAuthConfig(object):
     operatorExtend: OperatorExtend = OperatorExtend
     operatorDTOExtend: OperatorDTOExtend = OperatorDTOExtend
     isCreateDefaultModel: bool = True
+    operatorModel: BaseModel = None
 
     # Interceptor
     isStringImportSilent: bool = True
@@ -53,7 +55,7 @@ class PFFAuthConfig(object):
 
     # Email Configuration
     emailConfig: PFFMConfig = None
-    emailFormAppBaseURL: str = None
-    emailRestAppBaseURL: str = None
+    emailFormAppBaseURL: str = ""
+    emailRestAppBaseURL: str = ""
     emailTemplatePath: str = None
 

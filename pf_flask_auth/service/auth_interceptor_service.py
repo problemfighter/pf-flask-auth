@@ -1,5 +1,4 @@
 from werkzeug.utils import redirect
-
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnAclABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage

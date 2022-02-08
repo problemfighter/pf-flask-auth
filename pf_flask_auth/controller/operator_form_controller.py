@@ -61,4 +61,4 @@ def forgot_password():
 @operator_form_controller.route(PFFAuthConfig.logoutURL, methods=['GET'])
 def logout():
     operator_form_service.logout()
-    return redirect(url_prefix)
+    return redirect(PFFAuthConfig.formUrlPrefix)

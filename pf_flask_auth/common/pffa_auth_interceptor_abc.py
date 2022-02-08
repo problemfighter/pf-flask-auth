@@ -1,21 +1,20 @@
 from abc import ABC, abstractmethod
-
+from pf_flask_auth.common.pffa_model_dto_conf import PFFAModelDTOConf
 from pf_flask_auth.data.pffa_form_auth_data import FormAuthData
-from pf_flask_auth.model.operator import Operator
 from pf_flask_rest_com.data.pffrc_request_info import PFFRCRequestInfo
 
 
 class AuthInterceptOnVerifyABC(ABC):
 
     @abstractmethod
-    def process(self, operator: Operator, operator_service, is_api: bool) -> Operator:
+    def process(self, operator: PFFAModelDTOConf.OperatorModel, operator_service, is_api: bool) -> PFFAModelDTOConf.OperatorModel:
         pass
 
 
 class AuthInterceptAPILoginTokenABC(ABC):
 
     @abstractmethod
-    def process(self, response_map: dict, operator: Operator, operator_api_service) -> dict:
+    def process(self, response_map: dict, operator: PFFAModelDTOConf.OperatorModel, operator_api_service) -> dict:
         pass
 
 

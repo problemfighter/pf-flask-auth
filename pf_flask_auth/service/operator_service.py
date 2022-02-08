@@ -4,10 +4,13 @@ from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnVerifyABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
-from pf_flask_auth.model.operator import Operator
+from pf_flask_auth.common.pffa_model_dto_conf import PFFAModelDTOConf
 from pf_flask_auth.service.operator_email_service import OperatorEmailService
 from pf_flask_rest_com.common.pffr_exception import pffrc_exception
 from pf_py_common.py_common import PyCommon
+
+
+Operator = PFFAModelDTOConf.OperatorModel
 
 
 class OperatorService:
