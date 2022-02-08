@@ -5,7 +5,6 @@ from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_auth_methods_abc import AuthMethodsAbc
 from pf_flask_auth.common.pffa_model_dto_conf import PFFAModelDTOConf
 from pf_flask_auth.dto.operator_dto import OperatorDTO, LoginDTO, ForgotPasswordDTO, ResetPasswordDTO, RefreshTokenDTO
-from pf_flask_auth.model.operator_token import OperatorToken
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
 from pf_flask_auth.service.operator_service import OperatorService
 from pf_flask_rest.api.pf_app_api_def import APIPrimeDef
@@ -15,6 +14,7 @@ from pf_flask_rest_com.common.pffr_exception import pffrc_exception
 from pf_py_common.py_common import PyCommon
 
 Operator = PFFAModelDTOConf.OperatorModel
+OperatorToken = PFFAModelDTOConf.OperatorTokenModel
 
 
 class OperatorAPIService(AuthMethodsAbc):
