@@ -1,6 +1,6 @@
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
-from pf_flask_auth.common.pffa_model_dto_conf import PFFAModelDTOConf
+from pf_flask_auth.model.pffa_default_model import DefaultModel
 from pf_flask_mail.pffm_send_mail import PFFMSendMail
 from pf_py_jinja.pfpyj_template_man import TemplateManager
 
@@ -15,7 +15,7 @@ class OperatorEmailService:
             send_email_service.add_html_message(html_body)
             send_email_service.send(use_thread=True)
 
-    def forgot_password_email(self, token, operator: PFFAModelDTOConf.OperatorModel, is_api: bool = False):
+    def forgot_password_email(self, token, operator: DefaultModel.OperatorModel, is_api: bool = False):
         url = PFFAuthConfig.emailFormAppBaseURL + PFFAuthConfig.formUrlPrefix
         if is_api:
             url = PFFAuthConfig.emailRestAppBaseURL

@@ -1,11 +1,11 @@
-from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
+from sqlalchemy import Integer
 from pf_flask_auth.common.pffa_password_util import PasswordUtil
 from pf_flask_db.pf_app_database import app_db
-from pf_flask_db.pf_app_model import AppModel
+from pf_flask_db.pf_app_model import AppModel, BaseModel
 
 
-class Operator(AppModel, PFFAuthConfig.operatorExtend):
-    __abstract__ = not PFFAuthConfig.isCreateDefaultModel
+class OperatorAbstract(AppModel):
+    __abstract__ = True
     firstName = app_db.Column("first_name", app_db.String(100))
     lastName = app_db.Column("last_name", app_db.String(100))
     name = app_db.Column("name", app_db.String(100))
@@ -15,7 +15,6 @@ class Operator(AppModel, PFFAuthConfig.operatorExtend):
     isVerified = app_db.Column("is_verified", app_db.Boolean, default=True)
     isActive = app_db.Column("is_active", app_db.Boolean, default=True)
     token = app_db.Column("token", app_db.String(200))
-    tokens = app_db.relationship('OperatorToken', backref='operator', lazy=True)
 
     @property
     def password(self):
@@ -27,3 +26,13 @@ class Operator(AppModel, PFFAuthConfig.operatorExtend):
 
     def verify_password(self, password) -> bool:
         return PasswordUtil.validate_password(password, self.password_hash)
+
+
+class OperatorTokenAbstract(BaseModel):
+    __abstract__ = True
+    id = app_db.Column("id", app_db.BigInteger().with_variant(Integer, "sqlite"), primary_key=True)
+    token = app_db.Column("token", app_db.String(350), nullable=False)
+    name = app_db.Column("name", app_db.String(25))
+    created = app_db.Column("created", app_db.DateTime, default=app_db.func.now())
+    updated = app_db.Column("updated", app_db.DateTime, default=app_db.func.now(), onupdate=app_db.func.now())
+    tokenOwnerId = app_db.Column("token_owner_id", app_db.BigInteger().with_variant(Integer, "sqlite"), nullable=False)

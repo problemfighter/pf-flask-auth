@@ -4,6 +4,7 @@ from pf_flask_auth.cli.pf_flask_auth_cli import pf_flask_auth_cli
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.controller.operator_api_controller import operator_api_controller
 from pf_flask_auth.controller.operator_form_controller import operator_form_controller
+from pf_flask_auth.model.pffa_default_model import DefaultModel
 from pf_flask_auth.service.auth_interceptor_service import AuthInterceptorService
 
 
@@ -13,6 +14,7 @@ class PFFlaskAuth:
     def init_app(self, app):
         if not app:
             return
+        DefaultModel().init_model()
         if PFFAuthConfig.enableAPIEndPoints:
             api_controller = operator_api_controller
             api_controller.url_prefix = PFFAuthConfig.apiUrlPrefix

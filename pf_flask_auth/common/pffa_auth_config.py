@@ -1,6 +1,6 @@
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.data.pffa_extend_data import OperatorExtend, OperatorDTOExtend
-from pf_flask_db.pf_app_model import BaseModel
+from pf_flask_auth.model.pffa_abstract_model import OperatorAbstract, OperatorTokenAbstract
 from pf_flask_mail.common.pffm_config import PFFMConfig
 
 
@@ -43,8 +43,11 @@ class PFFAuthConfig(object):
     # Extension
     operatorExtend: OperatorExtend = OperatorExtend
     operatorDTOExtend: OperatorDTOExtend = OperatorDTOExtend
+
+    # Model Customization
     isCreateDefaultModel: bool = True
-    operatorModel: BaseModel = None
+    customOperatorModel: OperatorAbstract = None
+    customOperatorTokenModel: OperatorTokenAbstract = None
 
     # Interceptor
     isStringImportSilent: bool = True

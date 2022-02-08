@@ -4,13 +4,10 @@ from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnVerifyABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
-from pf_flask_auth.common.pffa_model_dto_conf import PFFAModelDTOConf
+from pf_flask_auth.model.pffa_default_model import DefaultModel
 from pf_flask_auth.service.operator_email_service import OperatorEmailService
 from pf_flask_rest_com.common.pffr_exception import pffrc_exception
 from pf_py_common.py_common import PyCommon
-
-
-Operator = PFFAModelDTOConf.OperatorModel
 
 
 class OperatorService:
@@ -18,16 +15,16 @@ class OperatorService:
     operator_email_service = OperatorEmailService()
 
     def get_operator_by_email(self, email):
-        return Operator.query.filter(Operator.email == email, Operator.isDeleted == False).first()
+        return DefaultModel.OperatorModel.query.filter(DefaultModel.OperatorModel.email == email, DefaultModel.OperatorModel.isDeleted == False).first()
 
     def get_operator_by_token(self, token):
-        return Operator.query.filter(Operator.token == token, Operator.isDeleted == False).first()
+        return DefaultModel.OperatorModel.query.filter(DefaultModel.OperatorModel.token == token, DefaultModel.OperatorModel.isDeleted == False).first()
 
     def get_operator_by_username(self, username):
-        return Operator.query.filter(and_(Operator.username == username, Operator.isDeleted == False)).first()
+        return DefaultModel.OperatorModel.query.filter(and_(DefaultModel.OperatorModel.username == username, DefaultModel.OperatorModel.isDeleted == False)).first()
 
     def get_operator_by_id(self, model_id):
-        return Operator.query.filter(and_(Operator.id == model_id, Operator.isDeleted == False)).first()
+        return DefaultModel.OperatorModel.query.filter(and_(DefaultModel.OperatorModel.id == model_id, DefaultModel.OperatorModel.isDeleted == False)).first()
 
     def get_operator_by_identifier(self, identifier):
         if PFFAuthConfig.loginIdentifier == PFFAuthConst.USERNAME:
@@ -40,7 +37,7 @@ class OperatorService:
         if operator:
             raise pffrc_exception.error_message_exception(PFFAuthMessage.OPERATOR_EXIST)
 
-        operator = Operator()
+        operator = DefaultModel.OperatorModel()
         operator.email = email
         operator.password = password
         operator.save()
@@ -64,19 +61,19 @@ class OperatorService:
         return False
 
     def is_other_operator_email_exist(self, email, model_id):
-        operator = Operator.query.filter(and_(Operator.email == email, Operator.id != model_id)).first()
+        operator = DefaultModel.OperatorModel.query.filter(and_(DefaultModel.OperatorModel.email == email, DefaultModel.OperatorModel.id != model_id)).first()
         if operator:
             return True
         return False
 
     def validate_and_get_operator_by(self, identifier: str, password: str):
-        response: Operator = self.get_operator_by_identifier(identifier)
+        response: DefaultModel.OperatorModel = self.get_operator_by_identifier(identifier)
         if response and response.verify_password(password):
             return response
         return None
 
     def login_operator(self, identifier: str, password: str, is_api: bool = False):
-        operator: Operator = self.validate_and_get_operator_by(identifier, password)
+        operator: DefaultModel.OperatorModel = self.validate_and_get_operator_by(identifier, password)
         if not operator:
             raise pffrc_exception.error_message_exception(PFFAuthMessage.INVALID_CREDENTIALS)
         if not operator.isActive:
@@ -99,7 +96,7 @@ class OperatorService:
             self.send_forgot_password_email(operator)
         return True
 
-    def send_forgot_password_email(self, operator: Operator, is_api: bool = False):
+    def send_forgot_password_email(self, operator: DefaultModel.OperatorModel, is_api: bool = False):
         operator.token = PyCommon.get_random() + str(operator.id)
         validity = self.jwt_helper.get_token_validity(PFFAuthConfig.resetPasswordTokenValidMin)
         token = self.jwt_helper.get_token(validity, {"token": operator.token})
@@ -109,7 +106,7 @@ class OperatorService:
     def rest_password_by_token(self, token: str, new_password: str):
         payload = self.jwt_helper.validate_token(token)
         if payload and "token" in payload:
-            operator: Operator = self.get_operator_by_token(payload["token"])
+            operator: DefaultModel.OperatorModel = self.get_operator_by_token(payload["token"])
             if operator:
                 operator.password = new_password
                 operator.token = None
@@ -120,7 +117,7 @@ class OperatorService:
     def is_valid_rest_password_token(self, token: str) -> bool:
         payload = self.jwt_helper.validate_token(token)
         if payload:
-            operator: Operator = self.get_operator_by_token(payload["token"])
+            operator: DefaultModel.OperatorModel = self.get_operator_by_token(payload["token"])
             if operator:
                 return True
         return False

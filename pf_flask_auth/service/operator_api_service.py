@@ -3,18 +3,15 @@ from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptAPILoginTokenABC, AuthInterceptRenewTokenABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_auth_methods_abc import AuthMethodsAbc
-from pf_flask_auth.common.pffa_model_dto_conf import PFFAModelDTOConf
 from pf_flask_auth.dto.operator_dto import OperatorDTO, LoginDTO, ForgotPasswordDTO, ResetPasswordDTO, RefreshTokenDTO
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
+from pf_flask_auth.model.pffa_default_model import DefaultModel
 from pf_flask_auth.service.operator_service import OperatorService
 from pf_flask_rest.api.pf_app_api_def import APIPrimeDef
 from pf_flask_rest.pf_flask_request_processor import RequestProcessor
 from pf_flask_rest.pf_flask_response_processor import ResponseProcessor
 from pf_flask_rest_com.common.pffr_exception import pffrc_exception
 from pf_py_common.py_common import PyCommon
-
-Operator = PFFAModelDTOConf.OperatorModel
-OperatorToken = PFFAModelDTOConf.OperatorTokenModel
 
 
 class OperatorAPIService(AuthMethodsAbc):
@@ -31,7 +28,7 @@ class OperatorAPIService(AuthMethodsAbc):
 
     def login(self, definition: LoginDTO = None):
         data = self.request_processor.get_rest_json_data(LoginDTO())
-        operator: Operator = self.operator_service.login_operator(data["identifier"], data["password"], True)
+        operator: DefaultModel.OperatorModel = self.operator_service.login_operator(data["identifier"], data["password"], True)
         return self.process_login_response(operator)
 
     def reset_password(self, definition: ResetPasswordDTO = None):
@@ -54,7 +51,7 @@ class OperatorAPIService(AuthMethodsAbc):
         response = self.renew_token_by_refresh_token(data["refreshToken"])
         return self.response_processor.dict_response(response)
 
-    def process_login_response(self, operator: Operator) -> dict:
+    def process_login_response(self, operator: DefaultModel.OperatorModel) -> dict:
         operator_details = OperatorDTO().dump(operator)
         response_map: dict = {
             self._operator: operator_details
@@ -104,17 +101,17 @@ class OperatorAPIService(AuthMethodsAbc):
 
 
     def get_operator_token_by_operator_id(self, operator_id):
-        return OperatorToken.query.filter(OperatorToken.operatorId == operator_id).first()
+        return DefaultModel.OperatorTokenModel.query.filter(DefaultModel.OperatorTokenModel.tokenOwnerId == operator_id).first()
 
     def get_operator_token_by_token(self, token):
-        return OperatorToken.query.filter(OperatorToken.token == token).first()
+        return DefaultModel.OperatorTokenModel.query.filter(DefaultModel.OperatorTokenModel.token == token).first()
 
     def create_or_update_db_refresh_token(self, operator_id, uuid=None):
-        existing_token: OperatorToken = self.get_operator_token_by_operator_id(operator_id)
+        existing_token: DefaultModel.OperatorTokenModel = self.get_operator_token_by_operator_id(operator_id)
         if uuid and (not existing_token or existing_token.token != uuid):
             return None
         if not existing_token:
-            existing_token = OperatorToken(name=PFFAuthConst.REFRESH_TOKEN_NAME, operatorId=operator_id)
+            existing_token = DefaultModel.OperatorTokenModel(name=PFFAuthConst.REFRESH_TOKEN_NAME, tokenOwnerId=operator_id)
 
         existing_token.token = PyCommon.uuid()
         existing_token.save()
