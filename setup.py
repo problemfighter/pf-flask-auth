@@ -18,7 +18,7 @@ def get_dependencies():
     if env and env == "dev":
         return dependency
 
-    return dependency + ["PF-Flask-Rest-Com", "PF-PY-Common"]
+    return dependency + ["PF-Flask-Rest-Com", "PF-PY-Common", "PF-Flask-Swagger"]
 
 
 setup(

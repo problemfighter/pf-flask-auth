@@ -34,6 +34,8 @@ class PFFAuthConfig(object):
     renewTokenURL = "/renew-token"
     logoutURL = "/logout"
 
+    enablePFAPIConvention: bool = True
+
     # JWT
     jwtRefreshTokenValidityMin: int = 45
     jwtAccessTokenValidityMin: int = 30

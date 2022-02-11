@@ -11,6 +11,8 @@ from pf_flask_rest.api.pf_app_api_def import APIPrimeDef
 from pf_flask_rest.pf_flask_request_processor import RequestProcessor
 from pf_flask_rest.pf_flask_response_processor import ResponseProcessor
 from pf_flask_rest_com.common.pffr_exception import pffrc_exception
+from pf_flask_rest_com.data.pffrc_response_data import PFFRCDataResponse
+from pf_flask_rest_com.data.pffrc_response_status import PFFRCResponseStatus, PFFRCResponseCode, PFFRCHTTPCode
 from pf_py_common.py_common import PyCommon
 
 
@@ -26,10 +28,16 @@ class OperatorAPIService(AuthMethodsAbc):
     request_processor = RequestProcessor()
     response_processor = ResponseProcessor()
 
+    def _data_response(self, data):
+        if not PFFAuthConfig.enablePFAPIConvention:
+            return self.response_processor.response_helper.json_response(data)
+        return self.response_processor.dict_response(data)
+
     def login(self, definition: LoginDTO = None):
         data = self.request_processor.get_rest_json_data(LoginDTO())
         operator: DefaultModel.OperatorModel = self.operator_service.login_operator(data["identifier"], data["password"], True)
-        return self.process_login_response(operator)
+        processed_response = self.process_login_response(operator)
+        return self._data_response(processed_response)
 
     def reset_password(self, definition: ResetPasswordDTO = None):
         data = self.request_processor.get_rest_json_data(ResetPasswordDTO())
@@ -49,7 +57,7 @@ class OperatorAPIService(AuthMethodsAbc):
     def renew_token(self):
         data = self.request_processor.get_rest_json_data(RefreshTokenDTO())
         response = self.renew_token_by_refresh_token(data["refreshToken"])
-        return self.response_processor.dict_response(response)
+        return self._data_response(response)
 
     def process_login_response(self, operator: DefaultModel.OperatorModel) -> dict:
         operator_details = OperatorDTO().dump(operator)
