@@ -13,14 +13,6 @@ class LoginFormDTO(LoginDTO):
     rememberMe = fields.Boolean(default=False)
 
 
-class OperatorDTO(FormAppDef, PFFAuthConfig.operatorDTOExtend):
-    firstName = fields.String()
-    lastName = fields.String()
-    name = fields.String()
-    email = fields.String()
-    username = fields.String()
-
-
 class LoginTokenDTO(APIBaseDef):
     accessToken = fields.String()
     refreshToken = fields.String()
@@ -28,7 +20,7 @@ class LoginTokenDTO(APIBaseDef):
 
 class LoginResponseDTO(APIBaseDef):
     loginToken = fields.Nested(LoginTokenDTO)
-    operator = fields.Nested(OperatorDTO)
+    operator = fields.Nested(PFFAuthConfig.customOperatorDTO)
 
 
 class RefreshTokenDTO(APIBaseDef):

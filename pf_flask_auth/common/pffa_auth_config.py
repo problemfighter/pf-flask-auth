@@ -1,5 +1,5 @@
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
-from pf_flask_auth.data.pffa_extend_data import OperatorExtend, OperatorDTOExtend
+from pf_flask_auth.dto.default_dto import OperatorDTO
 from pf_flask_auth.model.pffa_abstract_model import OperatorAbstract, OperatorTokenAbstract
 from pf_flask_mail.common.pffm_config import PFFMConfig
 
@@ -43,8 +43,7 @@ class PFFAuthConfig(object):
     resetPasswordTokenValidMin: int = 150
 
     # Extension
-    operatorExtend: OperatorExtend = OperatorExtend
-    operatorDTOExtend: OperatorDTOExtend = OperatorDTOExtend
+    customOperatorDTO: OperatorDTO = None
 
     # Model Customization
     isCreateDefaultModel: bool = True

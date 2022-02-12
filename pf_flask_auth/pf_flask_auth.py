@@ -1,9 +1,9 @@
 import os
-
 from pf_flask_auth.cli.pf_flask_auth_cli import pf_flask_auth_cli
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.controller.operator_api_controller import operator_api_controller
 from pf_flask_auth.controller.operator_form_controller import operator_form_controller
+from pf_flask_auth.dto.default_dto import OperatorDTO
 from pf_flask_auth.model.pffa_default_model import DefaultModel
 from pf_flask_auth.service.auth_interceptor_service import AuthInterceptorService
 
@@ -15,6 +15,7 @@ class PFFlaskAuth:
         if not app:
             return
         DefaultModel().init_model()
+        self._init_custom_DTO()
         if PFFAuthConfig.enableAPIEndPoints:
             api_controller = operator_api_controller
             api_controller.url_prefix = PFFAuthConfig.apiUrlPrefix
@@ -28,6 +29,10 @@ class PFFlaskAuth:
         app.before_request_funcs.setdefault(None, []).append(self.auth_interceptor_service.intercept)
         self._init_default_path()
         AuthInterceptorService.init_auth_skip_url()
+
+    def _init_custom_DTO(self):
+        if not PFFAuthConfig.customOperatorDTO:
+            PFFAuthConfig.customOperatorDTO = OperatorDTO
 
     def _init_default_path(self):
         root_path = os.path.dirname(os.path.abspath(__file__))

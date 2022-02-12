@@ -1,0 +1,10 @@
+from marshmallow import fields
+from pf_flask_rest.form.pf_app_form_def import FormAppDef
+
+
+class OperatorDTO(FormAppDef):
+    firstName = fields.String()
+    lastName = fields.String()
+    name = fields.String()
+    email = fields.String()
+    username = fields.String()
