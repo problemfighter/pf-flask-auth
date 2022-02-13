@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, redirect
+
+from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.dto.operator_dto import LoginFormDTO, ResetPasswordDTO, ForgotPasswordDTO
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
@@ -10,8 +12,8 @@ operator_form_controller = Blueprint(
     __name__,
     url_prefix=url_prefix,
     template_folder="templates",
-    static_folder="auth-static",
-    static_url_path="auth-static",
+    static_folder=PFFAuthConst.OPERATOR_FORM_STATIC_FOLDER,
+    static_url_path=PFFAuthConst.OPERATOR_FORM_STATIC_URL_PATH,
 )
 
 operator_form_service = OperatorFormService()

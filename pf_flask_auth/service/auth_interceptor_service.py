@@ -1,5 +1,9 @@
+import urllib.parse
+from urllib.parse import urljoin
+
 from werkzeug.utils import redirect
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
+from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnAclABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
@@ -17,21 +21,34 @@ class AuthInterceptorService:
     response_processor: ResponseProcessor = ResponseProcessor()
 
     _AUTH_URLS = []
+    _AUTH_URLS_START_WITH = []
 
     @staticmethod
     def init_auth_skip_url():
+        form_url_prefix = PFFAuthConfig.formUrlPrefix
+        api_url_prefix = PFFAuthConfig.apiUrlPrefix
+        if PFFAuthConfig.formUrlPrefix and PFFAuthConfig.formUrlPrefix.endswith("/"):
+            form_url_prefix = PFFAuthConfig.formUrlPrefix[:-1]
+
+        if PFFAuthConfig.apiUrlPrefix and PFFAuthConfig.apiUrlPrefix.endswith("/"):
+            api_url_prefix = PFFAuthConfig.apiUrlPrefix[:-1]
+
         AuthInterceptorService._AUTH_URLS = [
             PFFAuthConfig.formUrlPrefix,
-            PFFAuthConfig.formUrlPrefix + PFFAuthConfig.loginURL,
-            PFFAuthConfig.formUrlPrefix + PFFAuthConfig.logoutURL,
-            PFFAuthConfig.formUrlPrefix + PFFAuthConfig.resetPasswordURL,
-            PFFAuthConfig.formUrlPrefix + PFFAuthConfig.forgotPasswordURL,
+            form_url_prefix + PFFAuthConfig.loginURL,
+            form_url_prefix + PFFAuthConfig.logoutURL,
+            form_url_prefix + PFFAuthConfig.resetPasswordURL,
+            form_url_prefix + PFFAuthConfig.forgotPasswordURL,
 
-            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.loginURL,
-            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.logoutURL,
-            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.resetPasswordURL,
-            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.forgotPasswordURL,
-            PFFAuthConfig.apiUrlPrefix + PFFAuthConfig.renewTokenURL,
+            api_url_prefix + PFFAuthConfig.loginURL,
+            api_url_prefix + PFFAuthConfig.logoutURL,
+            api_url_prefix + PFFAuthConfig.resetPasswordURL,
+            api_url_prefix + PFFAuthConfig.forgotPasswordURL,
+            api_url_prefix + PFFAuthConfig.renewTokenURL,
+        ]
+
+        AuthInterceptorService._AUTH_URLS_START_WITH = [
+            "/" + PFFAuthConst.OPERATOR_FORM_STATIC_URL_PATH
         ]
 
     def call_acl_interceptor(self, payload=None, form_auth_data: FormAuthData = None, is_api: bool = False):
@@ -56,7 +73,7 @@ class AuthInterceptorService:
         return False
 
     def check_url_start_with(self, request_url):
-        url_list = self._AUTH_URLS + PFFAuthConfig.skipStartWithUrlList
+        url_list = PFFAuthConfig.skipStartWithUrlList + self._AUTH_URLS_START_WITH
         for url in url_list:
             if request_url.startswith(url):
                 return True
@@ -64,7 +81,8 @@ class AuthInterceptorService:
 
     def is_listed_in_skip_url(self) -> bool:
         relative_url = self.get_relative_url()
-        if relative_url in PFFAuthConfig.skipUrlList or self.check_url_start_with(relative_url):
+        skip_url_list = PFFAuthConfig.skipUrlList + self._AUTH_URLS
+        if relative_url in skip_url_list or self.check_url_start_with(relative_url):
             return True
         return False
 

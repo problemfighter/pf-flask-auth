@@ -43,7 +43,7 @@ class PFFAuthConfig(object):
     resetPasswordTokenValidMin: int = 150
 
     # Extension
-    customOperatorDTO: OperatorDTO = None
+    customOperatorDTO: OperatorDTO = OperatorDTO
 
     # Model Customization
     isCreateDefaultModel: bool = True

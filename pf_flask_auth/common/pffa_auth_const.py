@@ -7,3 +7,5 @@ class PFFAuthConst(object):
     INVALID_TOKEN_CODE = 5500
     TOKEN_EXPIRED_CODE = 5501
     TOKEN_ERROR_CODE = 5502
+    OPERATOR_FORM_STATIC_FOLDER = "auth-static"
+    OPERATOR_FORM_STATIC_URL_PATH = "auth-static"
