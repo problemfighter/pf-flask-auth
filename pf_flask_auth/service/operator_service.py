@@ -90,10 +90,10 @@ class OperatorService:
 
         return operator
 
-    def forgot_password(self, email: str):
+    def forgot_password(self, email: str, is_api: bool = False):
         operator = self.get_operator_by_email(email)
         if operator:
-            self.send_forgot_password_email(operator)
+            self.send_forgot_password_email(operator, is_api)
         return True
 
     def send_forgot_password_email(self, operator: DefaultModel.OperatorModel, is_api: bool = False):

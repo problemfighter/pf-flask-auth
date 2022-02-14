@@ -46,7 +46,7 @@ class OperatorAPIService(AuthMethodsAbc):
 
     def forgot_password(self, definition: APIPrimeDef = None):
         data = self.request_processor.get_rest_json_data(ForgotPasswordDTO())
-        self.operator_service.forgot_password(data["email"])
+        self.operator_service.forgot_password(data["email"], True)
         return self.response_processor.success_message(PFFAuthMessage.PASS_RESET_REQUEST)
 
     def logout(self):
