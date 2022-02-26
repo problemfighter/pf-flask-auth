@@ -6,5 +6,5 @@ class OperatorDTO(FormAppDef):
     firstName = fields.String()
     lastName = fields.String()
     name = fields.String()
-    email = fields.String()
+    email = fields.Email()
     username = fields.String()
