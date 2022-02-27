@@ -48,5 +48,5 @@ class FormAuthData(object):
         if data:
             for field in data:
                 setattr(self, field, data[field])
-        if "_otherFields" in data:
-            self.otherFields = json.loads(data["_otherFields"])
+            if "_otherFields" in data:
+                self.otherFields = json.loads(data["_otherFields"])

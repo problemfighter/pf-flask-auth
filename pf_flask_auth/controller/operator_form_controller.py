@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
+from pf_flask_auth.data.pffa_form_auth_data import FormAuthData
 from pf_flask_auth.dto.operator_dto import LoginFormDTO, ResetPasswordDTO, ForgotPasswordDTO
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.service.operator_form_service import OperatorFormService
@@ -22,6 +23,10 @@ operator_form_service = OperatorFormService()
 @operator_form_controller.route(PFFAuthConfig.loginURL, methods=['POST', 'GET'])
 def login():
     form = LoginFormDTO()
+    session_data: FormAuthData = FormAuthData.ins().get_logged_in_session()
+    if session_data and session_data.isLoggedIn:
+        return redirect(PFFAuthConfig.successRedirect)
+
     if form.is_post_request() and form.is_valid_data():
         if operator_form_service.login(form):
             return redirect(PFFAuthConfig.successRedirect)
