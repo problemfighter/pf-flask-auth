@@ -11,6 +11,7 @@ class FormAuthData(object):
     username: str = None
     id: int = None
     uuid: str = None
+    otherFields: dict = {}
 
     def login_success(self, operator):
         self.isLoggedIn = True
@@ -27,8 +28,12 @@ class FormAuthData(object):
 
     def _serialize(self, operator):
         for field in dir(self):
-            if not field.startswith('__') and hasattr(operator, field):
+            if not field.startswith('_') and hasattr(operator, field):
                 setattr(self, field, getattr(operator, field))
+
+        for field in operator.__dict__:
+            if not field.startswith('_') and field not in ["password"] and not hasattr(self, field):
+                self.otherFields[field] = getattr(operator, field)
 
     def _deserialize(self):
         data = SessionMan.get(self._SESSION_KEY)
