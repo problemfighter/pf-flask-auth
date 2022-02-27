@@ -1,3 +1,6 @@
+import enum
+import json
+from datetime import datetime
 from pf_flask_auth.common.pffa_session_man import SessionMan
 
 
@@ -12,6 +15,7 @@ class FormAuthData(object):
     id: int = None
     uuid: str = None
     otherFields: dict = {}
+    _otherFields: str = None
 
     def login_success(self, operator):
         self.isLoggedIn = True
@@ -32,11 +36,17 @@ class FormAuthData(object):
                 setattr(self, field, getattr(operator, field))
 
         for field in operator.__dict__:
-            if not field.startswith('_') and field not in ["password"] and not hasattr(self, field):
-                self.otherFields[field] = getattr(operator, field)
+            if not field.startswith('_') and field not in ["password", "password_hash"] and not hasattr(self, field):
+                data = getattr(operator, field)
+                if isinstance(data, enum.Enum) or isinstance(data, datetime):
+                    data = str(data)
+                self.otherFields[field] = data
+        self._otherFields = json.dumps(self.otherFields)
 
     def _deserialize(self):
         data = SessionMan.get(self._SESSION_KEY)
         if data:
             for field in data:
                 setattr(self, field, data[field])
+        if "_otherFields" in data:
+            self.otherFields = json.loads(data["_otherFields"])

@@ -1,6 +1,3 @@
-import urllib.parse
-from urllib.parse import urljoin
-
 from werkzeug.utils import redirect
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
