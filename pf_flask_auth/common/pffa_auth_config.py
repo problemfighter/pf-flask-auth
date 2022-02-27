@@ -50,6 +50,8 @@ class PFFAuthConfig(object):
     customOperatorModel: OperatorAbstract = None
     customOperatorTokenModel: OperatorTokenAbstract = None
 
+    operatorAdditionalFields: list = None  # {"name": "name", "defaultValue": "defaultValue"}
+
     # Interceptor
     isStringImportSilent: bool = True
     authInterceptOnVerifyABC: str = None
