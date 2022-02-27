@@ -37,8 +37,8 @@ class CreateCLIOperatorDTO(FormBaseDef):
 
 
 class ResetPasswordDTO(FormBaseDef):
-    newPassword = fields.String(required=True, error_messages={"required": "Please enter new password."})
-    confirmPassword = fields.String(required=True, error_messages={"required": "Please enter confirm password."})
+    newPassword = fields.String(required=True, error_messages={"required": "Please enter new password."}, type="password")
+    confirmPassword = fields.String(required=True, error_messages={"required": "Please enter confirm password."}, type="password")
     token = fields.String(required=True, error_messages={"required": "Please enter token."})
 
     @validates_schema
@@ -49,3 +49,8 @@ class ResetPasswordDTO(FormBaseDef):
 
 class ForgotPasswordDTO(FormBaseDef):
     email = fields.String(required=True, error_messages={"required": "Please enter email."})
+
+
+class ChangePasswordDTO(ResetPasswordDTO):
+    class Meta:
+        exclude = ["token"]
