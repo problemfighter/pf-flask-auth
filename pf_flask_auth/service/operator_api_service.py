@@ -42,7 +42,7 @@ class OperatorAPIService(AuthMethodsAbc):
         is_success = self.operator_service.rest_password_by_token(data["token"], data["newPassword"])
         if is_success:
             return self.response_processor.success_message(PFFAuthMessage.PASS_RESET_SUCCESS)
-        return self.response_processor.error_message(PFFAuthMessage.INVALID_TOKEN_OR_EXPIRE)
+        return self.response_processor.error_message(PFFAuthMessage.INVALID_TOKEN_OR_EXPIRE, code="512")
 
     def forgot_password(self, definition: APIPrimeDef = None):
         data = self.request_processor.get_rest_json_data(ForgotPasswordDTO())
