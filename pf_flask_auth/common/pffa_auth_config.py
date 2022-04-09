@@ -58,6 +58,7 @@ class PFFAuthConfig(object):
     authInterceptAPILoginTokenABC: str = None
     authInterceptRenewTokenABC: str = None
     authInterceptOnAclABC: str = None
+    authCustomLoginABC: str = None
 
     # Email Configuration
     emailConfig: PFFMConfig = None

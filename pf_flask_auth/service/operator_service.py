@@ -1,7 +1,7 @@
 from sqlalchemy import and_
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
 from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
-from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnVerifyABC
+from pf_flask_auth.common.pffa_auth_interceptor_abc import AuthInterceptOnVerifyABC, AuthCustomLoginABC
 from pf_flask_auth.common.pffa_auth_message import PFFAuthMessage
 from pf_flask_auth.common.pffa_jwt_helper import JWTHelper
 from pf_flask_auth.model.pffa_default_model import DefaultModel
@@ -72,8 +72,7 @@ class OperatorService:
             return response
         return None
 
-    def login_operator(self, identifier: str, password: str, is_api: bool = False):
-        operator: DefaultModel.OperatorModel = self.validate_and_get_operator_by(identifier, password)
+    def login_by_operator_model(self, operator, is_api: bool = False):
         if not operator:
             raise pffrc_exception.error_message_exception(PFFAuthMessage.INVALID_CREDENTIALS)
         if not operator.isActive:
@@ -89,6 +88,16 @@ class OperatorService:
                 return intercept_response
 
         return operator
+
+    def login_operator(self, identifier: str, password: str, is_api: bool = False):
+        operator: DefaultModel.OperatorModel = None
+        auth_custom_login_class = PyCommon.import_from_string(PFFAuthConfig.authCustomLoginABC, PFFAuthConfig.isStringImportSilent)
+        if auth_custom_login_class and issubclass(auth_custom_login_class, AuthCustomLoginABC):
+            custom_login = auth_custom_login_class()
+            operator = custom_login.process(identifier, password, is_api, self)
+        else:
+            operator = self.validate_and_get_operator_by(identifier, password)
+        return self.login_by_operator_model(operator, is_api)
 
     def forgot_password(self, email: str, is_api: bool = False):
         operator = self.get_operator_by_email(email)
