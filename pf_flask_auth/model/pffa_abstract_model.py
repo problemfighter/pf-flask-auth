@@ -15,6 +15,8 @@ class OperatorAbstract(AppModel):
     isVerified = app_db.Column("is_verified", app_db.Boolean, default=True)
     isActive = app_db.Column("is_active", app_db.Boolean, default=True)
     token = app_db.Column("token", app_db.String(200))
+    profilePhoto = app_db.Column("profile_photo", app_db.String(200))
+    coverPhoto = app_db.Column("cover_photo", app_db.String(200))
 
     @property
     def password(self):

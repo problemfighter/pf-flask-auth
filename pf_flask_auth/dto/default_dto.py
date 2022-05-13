@@ -8,3 +8,5 @@ class OperatorDTO(FormAppDef):
     name = fields.String()
     email = fields.Email()
     username = fields.String()
+    profilePhoto = fields.String()
+    coverPhoto = fields.String()
