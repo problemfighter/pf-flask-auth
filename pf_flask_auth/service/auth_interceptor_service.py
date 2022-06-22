@@ -89,7 +89,10 @@ class AuthInterceptorService:
     def check_rest_auth(self):
         bearer_token = self.request_helper.get_bearer_token()
         if not bearer_token:
-            return self.get_error_response()
+            bearer_token = self.request_helper.get_query_params_value("auth-token")
+            if not bearer_token:
+                return self.get_error_response()
+
         payload = self.jwt_helper.validate_token(bearer_token)
         if not payload:
             return self.get_error_response()
