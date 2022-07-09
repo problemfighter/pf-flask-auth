@@ -107,7 +107,7 @@ class AuthInterceptorService:
     def check_auth(self):
         if self.is_rest_request():
             return self.check_rest_auth()
-        else:
+        elif PFFAuthConfig.enableSessionAuth:
             return self.check_form_auth()
 
     def intercept(self):
