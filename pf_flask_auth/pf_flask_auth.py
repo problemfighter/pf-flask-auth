@@ -1,6 +1,7 @@
 import os
 from pf_flask_auth.cli.pf_flask_auth_cli import pf_flask_auth_cli
 from pf_flask_auth.common.pffa_auth_config import PFFAuthConfig
+from pf_flask_auth.common.pffa_auth_const import PFFAuthConst
 from pf_flask_auth.controller.operator_api_controller import operator_api_controller
 from pf_flask_auth.controller.operator_form_controller import operator_form_controller
 from pf_flask_auth.dto.default_dto import OperatorDTO
@@ -23,6 +24,10 @@ class PFFlaskAuth:
         if PFFAuthConfig.enableFormEndPoints:
             form_controller = operator_form_controller
             form_controller.url_prefix = PFFAuthConfig.formUrlPrefix
+
+            PFFAuthConfig.skipUrlList.append(form_controller.url_prefix)
+            PFFAuthConfig.skipUrlList.append(form_controller.url_prefix + "/")
+            PFFAuthConfig.skipStartWithUrlList.append(form_controller.url_prefix + "/" + PFFAuthConst.OPERATOR_FORM_STATIC_URL_PATH)
             app.register_blueprint(form_controller)
 
         app.cli.add_command(pf_flask_auth_cli)
