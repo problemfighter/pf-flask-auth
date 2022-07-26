@@ -63,9 +63,7 @@ class AuthInterceptorService:
             relative_url = self.url_info.relativeURLWithParam
         return relative_url
 
-    def is_rest_request(self, url_info: PFFRCRequestInfo = None) -> bool:
-        if not self.url_info:
-            self.url_info = url_info
+    def is_rest_request(self) -> bool:
         relative_url = self.get_relative_url()
         if relative_url.startswith(PFFAuthConfig.apiURLStartWith):
             return True
