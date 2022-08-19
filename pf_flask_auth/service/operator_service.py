@@ -75,9 +75,9 @@ class OperatorService:
     def login_by_operator_model(self, operator, is_api: bool = False):
         if not operator:
             raise pffrc_exception.error_message_exception(PFFAuthMessage.INVALID_CREDENTIALS)
-        if not operator.isActive:
+        if not operator.isActive and PFFAuthConfig.checkIsActive:
             raise pffrc_exception.error_message_exception(PFFAuthMessage.ACCOUNT_INACTIVE)
-        if not operator.isVerified:
+        if not operator.isVerified and PFFAuthConfig.checkIsVerified:
             raise pffrc_exception.error_message_exception(PFFAuthMessage.ACCOUNT_NOT_VERIFIED)
 
         auth_intercept_on_verify_class = PyCommon.import_from_string(PFFAuthConfig.authInterceptOnVerifyABC, PFFAuthConfig.isStringImportSilent)

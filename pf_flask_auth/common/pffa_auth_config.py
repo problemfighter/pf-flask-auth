@@ -19,6 +19,10 @@ class PFFAuthConfig(object):
     enableAPIEndPoints: bool = False
     enableFormEndPoints: bool = True
 
+    # Authentication checking
+    checkIsActive: bool = True
+    checkIsVerified: bool = True
+
     # End Points
     loginViewName = "PF Flask Auth"
     formUrlPrefix = "/auth"
