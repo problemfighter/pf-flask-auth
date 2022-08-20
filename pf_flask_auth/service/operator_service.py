@@ -80,7 +80,6 @@ class OperatorService:
         if not operator.isVerified and PFFAuthConfig.checkIsVerified:
             raise pffrc_exception.error_message_exception(PFFAuthMessage.ACCOUNT_NOT_VERIFIED)
 
-
         auth_intercept_on_verify_class = PyCommon.import_from_string(PFFAuthConfig.authInterceptOnVerifyABC, PFFAuthConfig.isStringImportSilent)
         if auth_intercept_on_verify_class and issubclass(auth_intercept_on_verify_class, AuthInterceptOnVerifyABC):
             auth_intercept = auth_intercept_on_verify_class()
