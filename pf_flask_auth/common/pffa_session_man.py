@@ -18,7 +18,8 @@ class SessionMan:
     @staticmethod
     def remove(key: str):
         store_key = SessionMan.autoPrefix + key
-        session.pop(store_key)
+        if store_key in session:
+            del session[store_key]
 
     @staticmethod
     def destroy():
