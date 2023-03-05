@@ -14,6 +14,8 @@ class FormAuthData(object):
     username: str = None
     id: int = None
     uuid: str = None
+    profilePhoto: str = None
+    coverPhoto: str = None
     otherFields: dict = {}
     _otherFields: str = None
 
