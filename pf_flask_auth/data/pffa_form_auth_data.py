@@ -20,13 +20,16 @@ class FormAuthData(object):
     _otherFields: str = None
 
     def login_success(self, operator):
-        self.isLoggedIn = True
-        self._serialize(operator)
-        SessionMan.add(self._SESSION_KEY, self.__dict__)
+        self.update_data(operator)
 
     def get_logged_in_session(self):
         self._deserialize()
         return self
+
+    def update_data(self, operator):
+        self.isLoggedIn = True
+        self._serialize(operator)
+        SessionMan.add(self._SESSION_KEY, self.__dict__)
 
     @staticmethod
     def ins():
