@@ -8,11 +8,18 @@ from pf_flask_auth.service.operator_service import OperatorService
 class OperatorFormService(AuthMethodsAbc):
     operator_service: OperatorService = OperatorService()
 
-    def login(self, form_def: LoginFormDTO = None):
+    def login_by_credential(self, identifier, password):
         try:
-            operator = self.operator_service.login_operator(form_def.identifier, form_def.password, False)
+            operator = self.operator_service.login_operator(identifier, password, False)
             FormAuthData.ins().login_success(operator)
             return True
+        except Exception as e:
+            pass
+        return False
+
+    def login(self, form_def: LoginFormDTO = None):
+        try:
+            return self.login_by_credential(form_def.identifier, form_def.password)
         except Exception as e:
             form_def.definition.add_validation_error(str(e))
         return False
