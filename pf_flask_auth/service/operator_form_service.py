@@ -14,7 +14,7 @@ class OperatorFormService(AuthMethodsAbc):
             FormAuthData.ins().login_success(operator)
             return True
         except Exception as e:
-            pass
+            raise e
         return False
 
     def login(self, form_def: LoginFormDTO = None):
